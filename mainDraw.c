@@ -31,32 +31,6 @@ int RLtimeren(){
                 if((xpos>=w.ws_col-InfT[6]-1 && xpos>xpos-VectrX) || (xpos<=0+InfT[6] && xpos<xpos-VectrX)){
 			VectrX*=-1;
 		}
-		int RLtimeren(){
-	int ms = 9;
-	time_t start, now;
-	struct timespec delay;
-	float MDirY = 0,MDirX = 0,grav = 0,ypos,xpos,VectrY,VectrX=1;
-	delay.tv_sec = 0;
-	delay.tv_nsec = ms * 999999L;
-	time(&start);
-	struct winsize w;
-	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-
-	// 1:for frames 2,3: x,y screen size 4,5: x,y figure center 6,7: x,y elipse radius
-	
-	float InfT[] = {1,w.ws_col,w.ws_row,w.ws_col/2+0.5,w.ws_row/2,10,10};
-	ypos = InfT[3];
-	xpos = InfT[4];
-	while(1){
-		ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);		
-		float InfT[] = {1,w.ws_col,w.ws_row,w.ws_col/2+0.5,w.ws_row/2,10,10};
-		MDirY=MDirY-grav+VectrY;
-		MDirX=MDirX+VectrX;
-		ypos+=MDirY;
-		xpos+=VectrX;
-                if((xpos>=w.ws_col-InfT[6]-1 && xpos>xpos-VectrX) || (xpos<=0+InfT[6] && xpos<xpos-VectrX)){
-			VectrX*=-1;
-		}
 		else if(xpos>w.ws_col-InfT[5]-1 && xpos>=xpos-MDirX){
 		VectrX = 0;
 		}
