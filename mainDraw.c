@@ -60,7 +60,7 @@ int main(){
 	int ms = 10;
 	time_t start, now;
 	struct timespec delay;
-	float MDir = 0,grav = 0.1,ypos;
+	float MDir = 0,grav = 0,ypos;
 	delay.tv_sec = 0;
 	delay.tv_nsec = ms * 1000000L;
 	time(&start);
@@ -72,22 +72,26 @@ int main(){
 	float InfT[] = {1,w.ws_col,w.ws_row,w.ws_col/2+0.5,11,10,10};
 	ypos = InfT[4];
 	while(1){
-		MDir = MDir-grav;
 		ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+		float InfT[] = {1,w.ws_col,w.ws_row,w.ws_col/2+0.5,11,10,10};
+		MDir = MDir-grav;
 		ypos=ypos+MDir;
+		
 		if((ypos<=-w.ws_row+InfT[6]+1 && ypos<ypos-MDir) || (ypos>=-10 && ypos>ypos-MDir)){
 			MDir*=-1;
+		}else if(ypos<-w.ws_row+InfT[6]+1 && ypos<=ypos-MDir){
+			grav = 0;
+			MDir = 0;
+		}else if(!(ypos<-w.ws_row+InfT[6]+1 && ypos<=ypos-MDir))
+			grav = 0.1
 		}
-		else if(ypos<-w.ws_row+InfT[6]+1 && ypos<=ypos-MDir){
-		grav = 0;
-		MDir = 0;
-		}
-		
-		step(InfT,-ypos);				
-		
+	
 		printf("\033[2J");
 		printf("\033[0;0H");
 		nanosleep(&delay,NULL);
+		step(InfT,-ypos);				
+		
+
 	}
 	return 0;
 }
