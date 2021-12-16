@@ -110,7 +110,8 @@ int RLtimeren(){
 
 			}
 		system("clear");
-		printf("%s",T[f]);
+		fputs(T[f],stdout);
+		fflush(stdout);
                 printf("\032[2J");
 		printf("\032[0;0H");
                 nanosleep(&delay,NULL);
