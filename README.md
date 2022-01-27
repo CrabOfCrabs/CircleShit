@@ -1,4 +1,4 @@
 # CircleShit
 some circle rendering stuff
 
-If you want to see bouncing circle just run ./compAll.sh
+old ones suck so i remade the script and am remaking to make gravity real again
