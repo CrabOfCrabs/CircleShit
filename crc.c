@@ -27,7 +27,7 @@ int rlcirc9(){
 	return 0;
 }
 
-//simplest circle draw that uses printf i can think of :)
+//simplest circle draw that uses printf and that I can think of :)
 int simpcir(){
 	for(int xy = 0;xy<10000;xy++){
 		int x = xy % 100,y = ceil(xy / 100);
