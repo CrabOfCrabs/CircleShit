@@ -4,9 +4,25 @@
 #include <sys/ioctl.h>
 #include <math.h>
 
-//loop hell
+struct winsize w;
+ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+
+//this draw simple ascii circle
+void crcdraw(r,cx,xy,sx,sy){ //r is diameter cx/y is center sx/y is screen size
+	for(int xy = 0;xy<sx*sy;xy++){
+		int x = xy % sx,y = ceil(xy / sx);
+		if(xy == y*sx){printf("\n");}
+
+		if(y >= cy - r/2 && y <= cy + r/2){
+			char pr = (pow(x-cx,2) + pow((y-cy)*2,2) <= r*r) ? '#':' ';
+			printf("%c",pr);
+		}
+	}
+}
+
+
+//puts in the middle of the screen
 int rlcirc9(){	
-	struct winsize w; 
 	while(1){
 		ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
 		int sx = w.ws_col,sy = w.ws_row;
@@ -14,20 +30,12 @@ int rlcirc9(){
 		int cx = sx/2,cy = sy/2;
 		system("clear");
 
-			for(int xy = 0;xy<sx*sy;xy++){
-				int x = xy % sx,y = ceil(xy / sx);
-				if(xy == y*sx){printf("\n");}
-
-				if(y >= cy - r/2 && y <= cy + r/2){
-					char pr = (pow(x-cx,2) + pow((y-cy)*2,2) <= r*r) ? '#':' ';
-					printf("%c",pr);
-				}
-			}
-		}
+		crcdraw(r,cx,xy,sx,sy);//magic
+	}
 	return 0;
 }
 
-//simplest circle draw that uses printf and that I can think of :)
+//simplest circle draw that uses printf i can think of :)
 int simpcir(){
 	for(int xy = 0;xy<10000;xy++){
 		int x = xy % 100,y = ceil(xy / 100);
