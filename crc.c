@@ -35,22 +35,11 @@ int rlcirc9(){
 	return 0;
 }
 
-//simplest circle draw that uses printf i can think of :)
-int simpcir(){
-	for(int xy = 0;xy<10000;xy++){
-		int x = xy % 100,y = ceil(xy / 100);
-		if(xy == y*100){printf("\n");}
-		if(y >= 45 && y <= 55){
-			char pr = (pow(x-50,2) + pow((y-50)*2,2) <= 100) ? '#':' ';
-			printf("%c",pr);
-		}
-	}
-return 0;
-}
+
 
 
 int main(){
-	//simpcir();
 	//rlcirc9();
+	//crcdraw(10,w.ws_col/2,w.ws_row/2,w.ws_col,w.ws_row); //draws once
 return 0;
 }
