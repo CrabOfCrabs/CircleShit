@@ -28,19 +28,35 @@ int gravcrc9(){	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
 	delay.tv_sec = 0;
 	delay.tv_nsec = ms * 999999L;
 	time(&start);
-	float cx = w.ws_col/2,cy = w.ws_row/2;
-	float gF = 0.1;
-	float Vx = 0,Vy = 0;
+	float //declare all the values 
+	      cx = (w.ws_col-1)/2,cy = (w.ws_row-1)/2,
+	      g = 0.1,
+	      gF = g,
+	      Vx = 4,Vy = 1,
+	      Fy = 0.98,Fx = 0.7; //floor friction
 	while(1){
 		ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-		int sx = w.ws_col,sy = w.ws_row;
+		int sx = w.ws_col-1,sy = w.ws_row-1;
 		int r = 10;
 		Vy += gF;
 		cx += Vx;cy += Vy;
-		if(cy+r/2 >= sy || cy-r/2 <= 0){
-			if(cy<=cy-Vy){gF = 0;Vy = 0;}else{Vy*=-1;}
+		if(cy+r/2 > sy){
+			cy = sy-(r/2); 
+			Vy*=-Fy;
 		}
-		else{gF = 0.1;}
+		else if(cy-r/2 < 1){//y bounce
+			cy = 1+(r/2); 
+			Vy*=-Fy;
+		}else{gF = g;}//set to default
+		
+		if(cx+r/2 > sx){
+			cx = sx-(r/2); 
+			Vx*=-Fx;
+		}
+		else if(cx-r/2 < 1){//y bounce
+			cx = 1+(r/2); 
+			Vx*=-Fx;
+		}
 		nanosleep(&delay,NULL);
 		system("clear");
 
